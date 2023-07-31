@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 type MainProps = {
-  children: ReactNode[] | null;
+  children: ReactNode[] | null | boolean;
 };
 
 function Main({ children }: MainProps) {
