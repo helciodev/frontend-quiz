@@ -1,23 +1,28 @@
-import Option from "./Option";
-type QuestionProps = {
+import Options from "./Options";
+type Question = {
   question: string;
   options: string[];
   correctOption: number;
   points: number;
 };
+type QuestionProps = {
+  question: Question;
+  dispatch: () => void;
+  answer: string | number;
+};
 
-function Question({ question }) {
-  console.log(question);
-
+function Question({ question, dispatch, answer }: QuestionProps) {
+  const { question: interrogation, options, correctOption, points } = question;
   return (
     <div>
-      <h4>Which is the most popular JavaScript framework?</h4>
-      <div className='options'>
-        <button className='btn btn-option  '>Angular</button>
-        <button className='btn btn-option  '>React</button>
-        <button className='btn btn-option  '>Svelte</button>
-        <button className='btn btn-option  '>Vue</button>
-      </div>
+      <h4>{interrogation}</h4>
+      <Options
+        answer={answer}
+        dispatch={dispatch}
+        options={options}
+        correctOption={correctOption}
+        points={points}
+      />
     </div>
   );
 }

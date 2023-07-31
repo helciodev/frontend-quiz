@@ -1,4 +1,4 @@
-import { Actions } from "./App";
+import { Actions } from "../consts";
 
 function StartGame({ dispatch }) {
   return (

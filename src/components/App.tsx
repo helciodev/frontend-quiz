@@ -5,19 +5,19 @@ import { useEffect, useReducer } from "react";
 import StartGame from "./StartGame";
 import GameTitle from "./GameTitle";
 import Question from "./Question";
+import NextQuestionButton from "./NextQuestionButton";
+import { Actions, ActionsTypes } from "../consts";
+import { QuestionInterface } from "../consts";
 
-export enum Actions {
-  IS_LOADING = "IS_LOADING",
-  ACTIVE = "ACTIVE",
-  START = "START",
-}
 const initialState = {
   status: "inactive",
   userPoints: 0,
   questions: [],
   index: 0,
+  answer: "",
 };
-function reducer(state, action) {
+
+function reducer(state: typeof initialState, action: ActionsTypes) {
   switch (action.type) {
     case Actions.IS_LOADING:
       return { ...state, status: Actions.IS_LOADING };
@@ -25,31 +25,29 @@ function reducer(state, action) {
       return { ...state, status: Actions.ACTIVE, questions: action.payload };
     case Actions.START:
       return { ...state, status: Actions.START };
+    case Actions.OPTION_SELECTED:
+      return { ...state, answer: action.payload.selected };
+    case Actions.NEXT:
+      return { ...state, index: (state.index += 1), answer: "" };
     default:
       throw new Error("Something went wrong!");
   }
 }
 
-interface Question {
-  question: string;
-  options: string[];
-  correctOption: number;
-  points: number;
-}
 function App() {
-  const [{ status, userPoints, questions, index }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ status, userPoints, questions, index, answer }, dispatch] =
+    useReducer(reducer, initialState);
 
   // derivate state
   const question = questions[index];
+  console.log(answer);
+
   useEffect(() => {
     const getQuestions = async (): Promise<void> => {
       try {
         dispatch({ type: Actions.IS_LOADING });
         const res = await fetch(questionsUrl);
-        const data: Question[] = await res.json();
+        const data: QuestionInterface[] = await res.json();
 
         dispatch({ type: Actions.ACTIVE, payload: data });
       } catch (error) {
@@ -58,13 +56,19 @@ function App() {
     };
     getQuestions();
   }, []);
+
   return (
     <div className='app'>
       <GameTitle />
       <Main>
         {status === Actions.IS_LOADING && <Loading />}
         {status === Actions.ACTIVE && <StartGame dispatch={dispatch} />}
-        {status === Actions.START && <Question question={question} />}
+        {status === Actions.START && (
+          <>
+            <Question answer={answer} dispatch={dispatch} question={question} />
+            <NextQuestionButton answer={answer} dispatch={dispatch} />
+          </>
+        )}
       </Main>
     </div>
   );
