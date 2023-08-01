@@ -5,7 +5,12 @@ export enum Actions {
   NEXT = "NEXT",
   OPTION_SELECTED = "OPTION_SELECTED",
   ERROR = "ERROR",
+  FINISH_GAME = "FINISH_GAME",
+  RESTART_GAME = "RESTART_GAME",
+  TIMER = "TIMER",
 }
+
+export const TIME_PER_QUESTION = 20;
 export interface QuestionInterface {
   question: string;
   options: string[];
@@ -21,4 +26,7 @@ export type ActionsTypes =
       type: Actions.OPTION_SELECTED;
       payload: { points: number; correctOption: number; selected: number };
     }
-  | { type: Actions.ERROR, payload: string };
+  | { type: Actions.ERROR }
+  | { type: Actions.FINISH_GAME }
+  | { type: Actions.RESTART_GAME }
+  | { type: Actions.TIMER };

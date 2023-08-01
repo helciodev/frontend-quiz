@@ -1,15 +1,20 @@
 const questionsUrl: string = "http://localhost:3005/questions";
+import { useEffect, useReducer } from "react";
+
+import { Actions, ActionsTypes, TIME_PER_QUESTION } from "../consts";
+import { QuestionInterface } from "../consts";
+
 import Main from "./Main";
 import Loading from "./Loading";
-import { useEffect, useReducer } from "react";
 import StartGame from "./StartGame";
 import GameTitle from "./GameTitle";
 import Question from "./Question";
 import NextQuestionButton from "./NextQuestionButton";
-import { Actions, ActionsTypes } from "../consts";
-import { QuestionInterface } from "../consts";
 import Progress from "./Progress";
-import Error from "./Error";
+import ErrorMessage from "./ErrorMessage";
+import FinishScreen from "./FinishScreen";
+import Counter from "./Counter";
+import Footer from "./Footer";
 
 const initialState = {
   status: "inactive",
@@ -17,7 +22,8 @@ const initialState = {
   questions: [],
   index: 0,
   answer: "",
-  error: null,
+  highScore: 0,
+  time: null,
 };
 
 function reducer(state: typeof initialState, action: ActionsTypes) {
@@ -25,7 +31,12 @@ function reducer(state: typeof initialState, action: ActionsTypes) {
     case Actions.IS_LOADING:
       return { ...state, status: Actions.IS_LOADING };
     case Actions.ACTIVE:
-      return { ...state, status: Actions.ACTIVE, questions: action.payload };
+      return {
+        ...state,
+        status: Actions.ACTIVE,
+        questions: action.payload,
+        time: state.questions.length * TIME_PER_QUESTION,
+      };
     case Actions.START:
       return { ...state, status: Actions.START };
     case Actions.OPTION_SELECTED:
@@ -37,24 +48,50 @@ function reducer(state: typeof initialState, action: ActionsTypes) {
             ? state.userPoints + action.payload.points
             : state.userPoints,
       };
+    case Actions.TIMER:
+      return {
+        ...state,
+        time: state.time - 1,
+        status: state.time === 0 ? Actions.FINISH_GAME : state.status,
+      };
     case Actions.NEXT:
       return { ...state, index: state.index + 1, answer: "" };
+    case Actions.FINISH_GAME:
+      return {
+        ...state,
+        status: Actions.FINISH_GAME,
+        highScore:
+          state.userPoints > state.highScore
+            ? state.userPoints
+            : state.highScore,
+      };
+    case Actions.RESTART_GAME:
+      return {
+        ...initialState,
+        questions: state.questions,
+        status: Actions.ACTIVE,
+        highScore: state.highScore,
+      };
     case Actions.ERROR:
-      return { ...state, error: action.payload };
+      return { ...state, status: Actions.ERROR };
     default:
       throw new Error("Something went wrong!");
   }
 }
 
 function App() {
-  const [{ status, userPoints, questions, index, answer, error }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { status, userPoints, questions, index, answer, error, highScore, time },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   // derivate state
-  const question = questions[index];
+  const question: QuestionInterface[] = questions[index];
   const totalNumQuestions = questions.length;
-  const totalPoints = questions.reduce((acc, { points }) => acc + points, 0);
-  console.log({ userPoints });
+  const totalPoints = questions.reduce(
+    (acc: number, { points }: QuestionInterface) => acc + points,
+    0
+  );
 
   useEffect(() => {
     const getQuestions = async (): Promise<void> => {
@@ -67,17 +104,18 @@ function App() {
       } catch (error) {
         console.error(error);
         console.log({ error });
-        dispatch({ type: "error", payload: error.TypeError });
+        dispatch({ type: Actions.ERROR });
       }
     };
     getQuestions();
   }, []);
+  console.log(status, error);
 
   return (
     <div className='app'>
       <GameTitle />
       <Main>
-        {status === Actions.ERROR && <Error errorMessage={error} />}
+        {status === Actions.ERROR && <ErrorMessage />}
         {status === Actions.IS_LOADING && <Loading />}
         {status === Actions.ACTIVE && <StartGame dispatch={dispatch} />}
         {status === Actions.START && (
@@ -89,8 +127,24 @@ function App() {
               userPoints={userPoints}
             />
             <Question answer={answer} dispatch={dispatch} question={question} />
-            <NextQuestionButton answer={answer} dispatch={dispatch} />
+            <Footer>
+              <Counter time={time} dispatch={dispatch} />
+              <NextQuestionButton
+                totalNumQuestions={totalNumQuestions}
+                index={index}
+                answer={answer}
+                dispatch={dispatch}
+              />
+            </Footer>
           </>
+        )}
+        {status === Actions.FINISH_GAME && (
+          <FinishScreen
+            userPoints={userPoints}
+            totalPoints={totalPoints}
+            highScore={highScore}
+            dispatch={dispatch}
+          />
         )}
       </Main>
     </div>
