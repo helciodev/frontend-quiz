@@ -1,6 +1,17 @@
 import { showEmoji } from "../helpers";
 import { Actions } from "../consts";
-function FinishScreen({ userPoints, totalPoints, highScore, dispatch }) {
+type FinishScreenProps = {
+  userPoints: number;
+  totalPoints: number;
+  highScore: number;
+  dispatch: unknown;
+};
+function FinishScreen({
+  userPoints,
+  totalPoints,
+  highScore,
+  dispatch,
+}: FinishScreenProps) {
   return (
     <>
       <p className='result'>

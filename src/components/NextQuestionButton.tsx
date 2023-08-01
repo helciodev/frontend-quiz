@@ -1,5 +1,17 @@
 import { Actions } from "../consts";
-function NextQuestionButton({ dispatch, answer, index, totalNumQuestions }) {
+
+type NextQuestionButtonProps = {
+  dispatch: { type: string; payload?: any };
+  answer: string | number;
+  index: number;
+  totalNumQuestions: number;
+};
+function NextQuestionButton({
+  dispatch,
+  answer,
+  index,
+  totalNumQuestions,
+}: NextQuestionButtonProps) {
   if (answer !== "" && totalNumQuestions - 1 > index)
     return (
       <button

@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { Actions } from "../consts";
 
-function Counter({ time, dispatch }) {
+type CounterProps = {
+  time: number;
+  dispatch: { type: string; payload?: unknown };
+};
+function Counter({ time, dispatch }: CounterProps) {
   const min = Math.floor(time / 60);
   const seconds = time % 60;
 

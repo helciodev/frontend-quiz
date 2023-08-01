@@ -1,8 +1,13 @@
 const questionsUrl: string = "http://localhost:3005/questions";
 import { useEffect, useReducer } from "react";
 
-import { Actions, ActionsTypes, TIME_PER_QUESTION } from "../consts";
-import { QuestionInterface } from "../consts";
+import {
+  Actions,
+  ActionsTypes,
+  TIME_PER_QUESTION,
+  QuestionInterface,
+  InitialStateType,
+} from "../consts";
 
 import Main from "./Main";
 import Loading from "./Loading";
@@ -16,14 +21,14 @@ import FinishScreen from "./FinishScreen";
 import Counter from "./Counter";
 import Footer from "./Footer";
 
-const initialState = {
+const initialState: InitialStateType = {
   status: "inactive",
   userPoints: 0,
   questions: [],
   index: 0,
   answer: "",
   highScore: 0,
-  time: null,
+  time: 0,
 };
 
 function reducer(state: typeof initialState, action: ActionsTypes) {
@@ -81,12 +86,12 @@ function reducer(state: typeof initialState, action: ActionsTypes) {
 
 function App() {
   const [
-    { status, userPoints, questions, index, answer, error, highScore, time },
+    { status, userPoints, questions, index, answer, highScore, time },
     dispatch,
   ] = useReducer(reducer, initialState);
 
   // derivate state
-  const question: QuestionInterface[] = questions[index];
+  const question = questions[index];
   const totalNumQuestions = questions.length;
   const totalPoints = questions.reduce(
     (acc: number, { points }: QuestionInterface) => acc + points,
@@ -98,7 +103,7 @@ function App() {
       try {
         dispatch({ type: Actions.IS_LOADING });
         const res = await fetch(questionsUrl);
-        const data: QuestionInterface[] = await res.json();
+        const data = await res.json();
 
         dispatch({ type: Actions.ACTIVE, payload: data });
       } catch (error) {
@@ -109,7 +114,6 @@ function App() {
     };
     getQuestions();
   }, []);
-  console.log(status, error);
 
   return (
     <div className='app'>

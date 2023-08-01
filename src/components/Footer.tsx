@@ -1,4 +1,9 @@
-function Footer({ children }) {
+import { ReactNode } from "react";
+
+type FooterProps = {
+  children: ReactNode;
+};
+function Footer({ children }: FooterProps) {
   return <footer>{children}</footer>;
 }
 

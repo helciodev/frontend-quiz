@@ -1,4 +1,16 @@
-function Progress({ totalNumQuestions, totalPoints, index, userPoints }) {
+type ProgressProps = {
+  totalNumQuestions: number;
+  totalPoints: number;
+  index: number;
+  userPoints: number;
+};
+
+function Progress({
+  totalNumQuestions,
+  totalPoints,
+  index,
+  userPoints,
+}: ProgressProps) {
   return (
     <header className='progress'>
       <progress max={totalNumQuestions} value={index + 1}></progress>

@@ -30,3 +30,13 @@ export type ActionsTypes =
   | { type: Actions.FINISH_GAME }
   | { type: Actions.RESTART_GAME }
   | { type: Actions.TIMER };
+
+export type InitialStateType = {
+  status: string;
+  userPoints: number;
+  questions: QuestionInterface[];
+  index: number;
+  answer: string | number;
+  highScore: number;
+  time: number;
+};
