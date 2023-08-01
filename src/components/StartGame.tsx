@@ -1,6 +1,11 @@
-import { Actions } from "../consts";
+import { Actions, ActionsTypes } from "../consts";
 
-function StartGame({ dispatch }) {
+type StartGameType = {
+  dispatch: React.Dispatch<ActionsTypes>;
+}
+
+
+function StartGame({ dispatch }: StartGameType) {
   return (
     <div className='start'>
       <h2>Welcome to The React Quiz!</h2>
