@@ -1,8 +1,8 @@
-import { Actions } from "../consts";
+import { Actions, ActionsTypes } from "../consts";
 
 type OptionsProps = {
   options: string[];
-  dispatch: { type: string; payload?: unknown };
+  dispatch: React.Dispatch<ActionsTypes>;
   points: number;
   correctOption: number;
   answer: string | number;

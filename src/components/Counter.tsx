@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { Actions } from "../consts";
+import { Actions, ActionsTypes } from "../consts";
 
 type CounterProps = {
   time: number;
-  dispatch: { type: string; payload?: unknown };
+  dispatch: React.Dispatch<ActionsTypes>;
 };
 function Counter({ time, dispatch }: CounterProps) {
   const min = Math.floor(time / 60);

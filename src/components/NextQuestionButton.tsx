@@ -1,7 +1,7 @@
-import { Actions } from "../consts";
+import { Actions, ActionsTypes } from "../consts";
 
 type NextQuestionButtonProps = {
-  dispatch: { type: string; payload?: any };
+  dispatch: React.Dispatch<ActionsTypes>;
   answer: string | number;
   index: number;
   totalNumQuestions: number;

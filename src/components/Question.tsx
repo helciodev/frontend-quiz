@@ -1,3 +1,4 @@
+import { ActionsTypes } from "../consts";
 import Options from "./Options";
 type Question = {
   question: string;
@@ -7,7 +8,7 @@ type Question = {
 };
 type QuestionProps = {
   question: Question;
-  dispatch: () => void;
+  dispatch: React.Dispatch<ActionsTypes>;
   answer: string | number;
 };
 
