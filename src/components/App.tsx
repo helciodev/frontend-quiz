@@ -8,6 +8,8 @@ import Question from "./Question";
 import NextQuestionButton from "./NextQuestionButton";
 import { Actions, ActionsTypes } from "../consts";
 import { QuestionInterface } from "../consts";
+import Progress from "./Progress";
+import Error from "./Error";
 
 const initialState = {
   status: "inactive",
@@ -15,6 +17,7 @@ const initialState = {
   questions: [],
   index: 0,
   answer: "",
+  error: null,
 };
 
 function reducer(state: typeof initialState, action: ActionsTypes) {
@@ -26,21 +29,32 @@ function reducer(state: typeof initialState, action: ActionsTypes) {
     case Actions.START:
       return { ...state, status: Actions.START };
     case Actions.OPTION_SELECTED:
-      return { ...state, answer: action.payload.selected };
+      return {
+        ...state,
+        answer: action.payload.selected,
+        userPoints:
+          action.payload.selected === action.payload.correctOption
+            ? state.userPoints + action.payload.points
+            : state.userPoints,
+      };
     case Actions.NEXT:
-      return { ...state, index: (state.index += 1), answer: "" };
+      return { ...state, index: state.index + 1, answer: "" };
+    case Actions.ERROR:
+      return { ...state, error: action.payload };
     default:
       throw new Error("Something went wrong!");
   }
 }
 
 function App() {
-  const [{ status, userPoints, questions, index, answer }, dispatch] =
+  const [{ status, userPoints, questions, index, answer, error }, dispatch] =
     useReducer(reducer, initialState);
 
   // derivate state
   const question = questions[index];
-  console.log(answer);
+  const totalNumQuestions = questions.length;
+  const totalPoints = questions.reduce((acc, { points }) => acc + points, 0);
+  console.log({ userPoints });
 
   useEffect(() => {
     const getQuestions = async (): Promise<void> => {
@@ -52,6 +66,8 @@ function App() {
         dispatch({ type: Actions.ACTIVE, payload: data });
       } catch (error) {
         console.error(error);
+        console.log({ error });
+        dispatch({ type: "error", payload: error.TypeError });
       }
     };
     getQuestions();
@@ -61,10 +77,17 @@ function App() {
     <div className='app'>
       <GameTitle />
       <Main>
+        {status === Actions.ERROR && <Error errorMessage={error} />}
         {status === Actions.IS_LOADING && <Loading />}
         {status === Actions.ACTIVE && <StartGame dispatch={dispatch} />}
         {status === Actions.START && (
           <>
+            <Progress
+              totalNumQuestions={totalNumQuestions}
+              totalPoints={totalPoints}
+              index={index}
+              userPoints={userPoints}
+            />
             <Question answer={answer} dispatch={dispatch} question={question} />
             <NextQuestionButton answer={answer} dispatch={dispatch} />
           </>

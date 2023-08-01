@@ -4,6 +4,7 @@ export enum Actions {
   START = "START",
   NEXT = "NEXT",
   OPTION_SELECTED = "OPTION_SELECTED",
+  ERROR = "ERROR",
 }
 export interface QuestionInterface {
   question: string;
@@ -19,4 +20,5 @@ export type ActionsTypes =
   | {
       type: Actions.OPTION_SELECTED;
       payload: { points: number; correctOption: number; selected: number };
-    };
+    }
+  | { type: Actions.ERROR, payload: string };

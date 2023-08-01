@@ -15,7 +15,7 @@ function Options({
   correctOption,
   answer,
 }: OptionsProps) {
-  const hasAnwer = answer !== "";
+  const hasAnswer = answer !== "";
   return (
     <div className='options'>
       {options.map((option, i) => (
@@ -28,8 +28,9 @@ function Options({
             })
           }
           className={`btn btn-option ${i === answer ? "answer" : ""} ${
-            hasAnwer ? (i === correctOption ? "correct" : "wrong") : null
+            hasAnswer ? (i === correctOption ? "correct" : "wrong") : null
           }`}
+          disabled={hasAnswer}
         >
           {option}
         </button>
