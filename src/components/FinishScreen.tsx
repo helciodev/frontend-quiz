@@ -1,10 +1,10 @@
 import { showEmoji } from "../helpers";
-import { Actions } from "../consts";
+import { Actions, ActionsTypes } from "../consts";
 type FinishScreenProps = {
   userPoints: number;
   totalPoints: number;
   highScore: number;
-  dispatch: unknown;
+  dispatch: React.Dispatch<ActionsTypes>;
 };
 function FinishScreen({
   userPoints,
