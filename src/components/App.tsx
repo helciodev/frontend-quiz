@@ -41,10 +41,13 @@ function reducer(state: typeof initialState, action: ActionsTypes) {
         ...state,
         status: Actions.ACTIVE,
         questions: action.payload,
-        time: state.questions.length * TIME_PER_QUESTION,
       };
     case Actions.START:
-      return { ...state, status: Actions.START };
+      return {
+        ...state,
+        status: Actions.START,
+        time: state.questions.length * TIME_PER_QUESTION,
+      };
     case Actions.OPTION_SELECTED:
       return {
         ...state,
