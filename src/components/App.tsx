@@ -1,4 +1,5 @@
-const questionsUrl: string = "http://localhost:3005/questions";
+const questionsUrl: string =
+  "https://frontentd-quiz-server-vercel.vercel.app/questions";
 import { useEffect, useReducer } from "react";
 
 import {
