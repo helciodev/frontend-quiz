@@ -1,27 +1,40 @@
-# React + TypeScript + Vite
+# Frontend Quiz App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is an experiment to learn more about the useReducer hook in React
 
-Currently, two official plugins are available:
+If you feel like playing and test your frontend knowledge a live version can be found at the link below:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [frontend-quiz-app](https://frontend-quiz-hd.vercel.app/)
 
-## Expanding the ESLint configuration
+## installing on your local machine
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+In order to try the aplication in your own machine you will have to create an account at [tmdb](https://www.themoviedb.org/) and request an API key.
+You can read more about their API here [TMDB API OVERVIEW](https://www.themoviedb.org/documentation/api)
+Follow along the steps below to get a copy at your local machine.
 
-- Configure the top-level `parserOptions` property like this:
+- Navigate to the directory where you want this project to clone and then clone it
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+  ```
+  git clone git@github.com:helciodev/frontend-quiz.git
+  ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Navigate to the `frontend-quiz` directory
+
+  ```
+  cd frontend-quiz
+  ```
+
+- Install the npm package running `npm install or yarn`
+- Start the server with `npm run dev or yar run dev`
+- The site should automatically open in your browser at http://http://localhost:5173/ if it didn't then open your browser with that link.
+
+## Future updates
+
+I am planning to add much more questions about frontend, "not only react"
+
+## Author
+
+😎 **Helcio André**
+
+- Twitter: [@helcio_bruno](https://twitter.com/helcio_bruno)
+- Linkedin: [Helcio Andre](https://www.linkedin.com/in/helcio-andre/)
