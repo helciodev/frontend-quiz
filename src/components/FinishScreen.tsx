@@ -1,17 +1,9 @@
 import { showEmoji } from "../helpers";
-import { Actions, ActionsTypes } from "../consts";
-type FinishScreenProps = {
-  userPoints: number;
-  totalPoints: number;
-  highScore: number;
-  dispatch: React.Dispatch<ActionsTypes>;
-};
-function FinishScreen({
-  userPoints,
-  totalPoints,
-  highScore,
-  dispatch,
-}: FinishScreenProps) {
+import { Actions } from "../consts";
+import { useQuizContext } from "./quiz-context/QuizProvider";
+
+function FinishScreen() {
+  const { userPoints, totalPoints, highScore, dispatch } = useQuizContext();
   return (
     <>
       <p className='result'>

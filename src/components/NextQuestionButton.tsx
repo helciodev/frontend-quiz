@@ -1,17 +1,8 @@
 import { Actions, ActionsTypes } from "../consts";
+import { useQuizContext } from "./quiz-context/QuizProvider";
 
-type NextQuestionButtonProps = {
-  dispatch: React.Dispatch<ActionsTypes>;
-  answer: string | number;
-  index: number;
-  totalNumQuestions: number;
-};
-function NextQuestionButton({
-  dispatch,
-  answer,
-  index,
-  totalNumQuestions,
-}: NextQuestionButtonProps) {
+function NextQuestionButton() {
+  const { dispatch, answer, index, totalNumQuestions } = useQuizContext();
   if (answer !== "" && totalNumQuestions - 1 > index)
     return (
       <button

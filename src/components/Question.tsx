@@ -1,18 +1,9 @@
 import { ActionsTypes } from "../consts";
 import Options from "./Options";
-type Question = {
-  question: string;
-  options: string[];
-  correctOption: number;
-  points: number;
-};
-type QuestionProps = {
-  question: Question;
-  dispatch: React.Dispatch<ActionsTypes>;
-  answer: string | number;
-};
+import { useQuizContext } from "./quiz-context/QuizProvider";
 
-function Question({ question, dispatch, answer }: QuestionProps) {
+function Question() {
+  const { question, dispatch, answer } = useQuizContext();
   const { question: interrogation, options, correctOption, points } = question;
   return (
     <div>

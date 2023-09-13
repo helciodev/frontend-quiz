@@ -1,16 +1,8 @@
-type ProgressProps = {
-  totalNumQuestions: number;
-  totalPoints: number;
-  index: number;
-  userPoints: number;
-};
+import { useQuizContext } from "./quiz-context/QuizProvider";
 
-function Progress({
-  totalNumQuestions,
-  totalPoints,
-  index,
-  userPoints,
-}: ProgressProps) {
+function Progress() {
+  const { totalNumQuestions, totalPoints, index, userPoints } =
+    useQuizContext();
   return (
     <header className='progress'>
       <progress max={totalNumQuestions} value={index + 1}></progress>

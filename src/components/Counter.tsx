@@ -1,11 +1,9 @@
 import { useEffect } from "react";
-import { Actions, ActionsTypes } from "../consts";
+import { Actions } from "../consts";
+import { useQuizContext } from "./quiz-context/QuizProvider";
 
-type CounterProps = {
-  time: number;
-  dispatch: React.Dispatch<ActionsTypes>;
-};
-function Counter({ time, dispatch }: CounterProps) {
+function Counter() {
+  const { time, dispatch } = useQuizContext();
   const min = Math.floor(time / 60);
   const seconds = time % 60;
 
